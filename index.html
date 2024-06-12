@@ -23,49 +23,41 @@
             console.log("Error getting location:", error.message);
         }
 
-        // Function to save the visitor's location in JSON format and download the file
+        // Function to save the visitor's location in JSON format and create download link
         function savePosition(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
             console.log("Latitude: " + latitude + " Longitude: " + longitude);
 
-            // Create a JavaScript object with the new location data
-            var newLocationData = {
+            // Create a JavaScript object with the location data
+            var locationData = {
                 latitude: latitude,
                 longitude: longitude
             };
 
-            // Check if there is existing data in localStorage
-            var existingData = localStorage.getItem("visitor_location");
-            if (existingData) {
-                // Parse existing data from JSON
-                var existingDataArray = JSON.parse(existingData);
-                // Append the new data to the existing array
-                existingDataArray.push(newLocationData);
-                // Convert the updated data back to JSON format
-                var updatedData = JSON.stringify(existingDataArray);
-                // Trigger file download
-                downloadFile(updatedData);
-            } else {
-                // If no existing data, create a new array with the new data
-                var newDataArray = [newLocationData];
-                // Convert the new data to JSON format
-                var newData = JSON.stringify(newDataArray);
-                // Trigger file download
-                downloadFile(newData);
-            }
-        }
+            // Convert the object to JSON format
+            var jsonData = JSON.stringify(locationData);
 
-        // Function to trigger file download
-        function downloadFile(data) {
-            var blob = new Blob([data], { type: "application/json" });
-            var url = URL.createObjectURL(blob);
+            // Create a Blob object with the JSON data
+            var blob = new Blob([jsonData], { type: "application/json" });
+
+            // Create a download link
             var a = document.createElement("a");
+            var url = URL.createObjectURL(blob);
             a.href = url;
-            a.download = "location.json";
+            a.download = "visitor_location.json";
+            a.textContent = "Download Location Data";
+
+            // Append the download link to the body
             document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+
+            // Optionally, you can remove the download link after a delay
+            setTimeout(function() {
+                document.body.removeChild(a);
+            }, 1000); // Remove the link after 5 seconds (5000 milliseconds)
+
+            // Redirect to "car.png"
+            window.location.href = "car.png";
         }
 
         // Call the getLocation function when the page loads
