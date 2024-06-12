@@ -7,10 +7,11 @@
 </head>
 <body>
     <h1>Welcome to Visitor Location Tracker</h1>
+    <div id="loadingMessage">Fetching your location...</div>
     
     <!-- Include the Deta SDK using module syntax -->
     <script type="module">
-        // Import the Deta Base module
+        // Import the Deta Base module with HTTPS protocol
         import { Base } from 'https://cdn.deta.space/js/deta@latest/deta.mjs';
 
         // Initialize Deta Base with your project key and database name
@@ -18,7 +19,7 @@
         const db = deta.Base('Location');
 
         // Function to get the visitor's location
-        function getLocation() {
+        async function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(savePosition, errorHandler, { enableHighAccuracy: true });
             } else {
@@ -29,26 +30,27 @@
         // Function to handle errors in geolocation
         function errorHandler(error) {
             console.log("Error getting location:", error.message);
+            document.getElementById('loadingMessage').textContent = "Error getting your location.";
         }
 
         // Function to save the visitor's location in Deta Space database and show an alert
-        function savePosition(position) {
+        async function savePosition(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
             console.log("Latitude: " + latitude + " Longitude: " + longitude);
 
             // Store the location data in your Deta Space database
-            db.put({ latitude: latitude, longitude: longitude })
-                .then(response => {
-                    console.log('Location data saved successfully:', response);
-                    // Show an alert
-                    alert("Location data saved successfully!");
-                    // Redirect to "car.png"
-                    window.location.replace("car.png");
-                })
-                .catch(error => {
-                    console.error('Error saving location data:', error);
-                });
+            try {
+                const response = await db.put({ latitude: latitude, longitude: longitude }, "visitor_location");
+                console.log('Location data saved successfully:', response);
+                // Show an alert
+                alert("Location data saved successfully!");
+                // Redirect to "car.png"
+                window.location.replace("car.png");
+            } catch (error) {
+                console.error('Error saving location data:', error);
+                document.getElementById('loadingMessage').textContent = "Error saving your location data.";
+            }
         }
 
         // Call the getLocation function when the page loads
