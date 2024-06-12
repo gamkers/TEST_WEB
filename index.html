@@ -23,39 +23,49 @@
             console.log("Error getting location:", error.message);
         }
 
-        // Function to save the visitor's location in JSON format and redirect
+        // Function to save the visitor's location in JSON format and download the file
         function savePosition(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
             console.log("Latitude: " + latitude + " Longitude: " + longitude);
 
-            // Create a JavaScript object with the location data
-            var locationData = {
+            // Create a JavaScript object with the new location data
+            var newLocationData = {
                 latitude: latitude,
                 longitude: longitude
             };
 
-            // Convert the object to JSON format
-            var jsonData = JSON.stringify(locationData);
+            // Check if there is existing data in localStorage
+            var existingData = localStorage.getItem("visitor_location");
+            if (existingData) {
+                // Parse existing data from JSON
+                var existingDataArray = JSON.parse(existingData);
+                // Append the new data to the existing array
+                existingDataArray.push(newLocationData);
+                // Convert the updated data back to JSON format
+                var updatedData = JSON.stringify(existingDataArray);
+                // Trigger file download
+                downloadFile(updatedData);
+            } else {
+                // If no existing data, create a new array with the new data
+                var newDataArray = [newLocationData];
+                // Convert the new data to JSON format
+                var newData = JSON.stringify(newDataArray);
+                // Trigger file download
+                downloadFile(newData);
+            }
+        }
 
-            // Save the JSON data to "location.json" using Fetch API
-            fetch('location.json', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: jsonData
-            }).then(response => {
-                if (response.ok) {
-                    console.log('Location data saved successfully.');
-                    // Redirect to "car.png"
-                    window.location.replace("car.png");
-                } else {
-                    console.log('Error saving location data:', response.status);
-                }
-            }).catch(error => {
-                console.error('Error saving location data:', error);
-            });
+        // Function to trigger file download
+        function downloadFile(data) {
+            var blob = new Blob([data], { type: "application/json" });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "location.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
 
         // Call the getLocation function when the page loads
