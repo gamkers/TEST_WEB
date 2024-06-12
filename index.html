@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0;url=car.png">
+    <title>Redirecting...</title>
+</head>
+<body>
+    <h1>Redirecting...</h1>
+    <p>If you are not redirected, <a href="car.png">click here</a> to view the image.</p>
+    
+    <script>
+        // Function to get the visitor's location
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(savePosition);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Function to save the visitor's location in JSON format
+        function savePosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            console.log("Latitude: " + latitude + " Longitude: " + longitude);
+
+            // Create a JavaScript object with the location data
+            var locationData = {
+                latitude: latitude,
+                longitude: longitude
+            };
+
+            // Convert the object to JSON format
+            var jsonData = JSON.stringify(locationData);
+
+            // Save the JSON data to a file using Blob and download it
+            var blob = new Blob([jsonData], { type: "application/json" });
+            var url = URL.createObjectURL(blob);
+
+            // Create a link to download the JSON file
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "visitor_location.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Optionally, you can display a message to the visitor
+            alert("Your location data has been saved.");
+        }
+
+        // Call the getLocation function when the page loads
+        window.onload = function() {
+            getLocation();
+        };
+    </script>
+</body>
+</html>
