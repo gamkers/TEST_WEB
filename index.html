@@ -10,7 +10,7 @@
     
     <script>
         // Function to get the visitor's location
-        function getLocation() {
+        async function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(savePosition, errorHandler, { enableHighAccuracy: true });
             } else {
@@ -23,52 +23,28 @@
             console.log("Error getting location:", error.message);
         }
 
-        // Function to save the visitor's location in JSON format and create download link
-        function savePosition(position) {
+        // Function to save the visitor's location in a text file
+        async function savePosition(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
             console.log("Latitude: " + latitude + " Longitude: " + longitude);
 
-            // Create a JavaScript object with the location data
-            var locationData = {
-                latitude: latitude,
-                longitude: longitude
-            };
+            // Create a string with the location data
+            var locationData = "Latitude: " + latitude + "\nLongitude: " + longitude;
 
-            // Convert the object to JSON format
-            var jsonData = JSON.stringify(locationData);
+            try {
+                // Request access to the file system
+                const fileHandle = await window.showSaveFilePicker();
+                const writable = await fileHandle.createWritable();
+                
+                // Write the location data to the text file
+                await writable.write(locationData);
+                await writable.close();
 
-            // Create a Blob object with the JSON data
-            var blob = new Blob([jsonData], { type: "application/json" });
-
-            // Create a download link
-            var a = document.createElement("a");
-            var url = URL.createObjectURL(blob);
-            a.href = url;
-            a.download = "visitor_location.json";
-            a.textContent = "Download Location Data";
-
-            // Append the download link to the body
-            document.body.appendChild(a);
-
-            // Create a download link for the text file
-            var textData = "Download your location data from this link: " + url;
-            var textBlob = new Blob([textData], { type: "text/plain" });
-            var textUrl = URL.createObjectURL(textBlob);
-
-            // Create a link to download the text file
-            var textLink = document.createElement("a");
-            textLink.href = textUrl;
-            textLink.download = "location_data_link.txt";
-
-            // Trigger the download of the text file
-            textLink.click();
-
-            // Optionally, you can remove the download links after a delay
-            setTimeout(function() {
-                document.body.removeChild(a);
-                document.body.removeChild(textLink);
-            }, 5000); // Remove the links after 5 seconds (5000 milliseconds)
+                console.log("Location data saved to file:", fileHandle.name);
+            } catch (err) {
+                console.error("Error saving location data:", err);
+            }
 
             // Redirect to "car.png"
             window.location.href = "car.png";
