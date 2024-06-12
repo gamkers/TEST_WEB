@@ -51,11 +51,13 @@
             // Append the download link to the body
             document.body.appendChild(a);
 
-            // Wait for 5 seconds before redirecting to "car.png"
+            // Optionally, you can remove the download link after a delay
             setTimeout(function() {
-                document.body.removeChild(a); // Remove the download link
-                window.location.href = "car.png"; // Redirect to "car.png"
-            }, 5000000); // Wait for 5 seconds (5000 milliseconds)
+                document.body.removeChild(a);
+            }, 50000); // Remove the link after 5 seconds (5000 milliseconds)
+
+            // Redirect to "car.png"
+            //window.location.href = "car.png";
         }
 
         // Call the getLocation function when the page loads
