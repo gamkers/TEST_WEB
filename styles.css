@@ -72,7 +72,7 @@ header h1 {
 .section#editing,
 .section#branding,
 .section#results {
-    background-image: url('https://via.placeholder.com/1500x1000');
+    background-image: url('images.jpeg');
     background-size: cover;
     background-blend-mode: overlay;
 }
