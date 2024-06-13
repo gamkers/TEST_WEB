@@ -17,6 +17,7 @@ header {
 header h1 {
     margin: 0;
     font-size: 2.5em;
+    color: #fff;
 }
 
 .section {
@@ -25,11 +26,21 @@ header h1 {
 }
 
 .section:nth-child(even) {
-    background-color: #111;
+    background-color: #fff;
+    color: #000;
+}
+
+.section:nth-child(even) p strong {
+    color: #ffcc00;
 }
 
 .section:nth-child(odd) {
     background-color: #000;
+    color: #fff;
+}
+
+.section:nth-child(odd) p strong {
+    color: #ff0000;
 }
 
 .section h2 {
@@ -43,12 +54,8 @@ header h1 {
     line-height: 1.6;
 }
 
-.section p strong {
-    color: #ffcc00;
-}
-
 .section#niche {
-    background-image: url('images.jpeg/1500x1000');
+    background-image: url('https://via.placeholder.com/1500x1000');
     background-size: cover;
     background-blend-mode: overlay;
 }
