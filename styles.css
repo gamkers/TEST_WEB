@@ -3,14 +3,14 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #000;
+    background-color: #1e1e1e;
     color: #fff;
 }
 
 header {
     text-align: center;
     padding: 20px;
-    background-color: #000;
+    background-color: #333;
     border-bottom: 1px solid #444;
 }
 
@@ -26,21 +26,21 @@ header h1 {
 }
 
 .section:nth-child(even) {
-    background-color: #fff;
-    color: #000;
+    background-color: #333;
+    color: #fff;
 }
 
 .section:nth-child(even) p strong {
-    color: #ffcc00;
+    color: #ff0000;
 }
 
 .section:nth-child(odd) {
-    background-color: #000;
+    background-color: #1e1e1e;
     color: #fff;
 }
 
 .section:nth-child(odd) p strong {
-    color: #ffcc00;
+    color: #ff0000;
 }
 
 .section h2 {
@@ -55,7 +55,7 @@ header h1 {
 }
 
 .section#niche {
-    background-image: url('images.jpeg');
+    background-image: url('https://via.placeholder.com/1500x1000');
     background-size: cover;
     background-blend-mode: overlay;
 }
