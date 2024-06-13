@@ -23,15 +23,15 @@ header h1 {
 .section {
     padding: 40px 20px;
     border-bottom: 1px solid #444;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
 }
 
 .section:nth-child(even) {
     background-color: #333;
     color: #fff;
-    flex-direction: row-reverse;
+}
+
+.section:nth-child(even) p strong {
+    color: #ff0000;
 }
 
 .section:nth-child(odd) {
@@ -39,8 +39,7 @@ header h1 {
     color: #fff;
 }
 
-.section:nth-child(odd) p strong,
-.section:nth-child(even) p strong {
+.section:nth-child(odd) p strong {
     color: #ff0000;
 }
 
@@ -49,30 +48,68 @@ header h1 {
     font-size: 2em;
     border-bottom: 2px solid #666;
     padding-bottom: 10px;
-    flex-basis: 50%;
 }
 
 .section p {
     line-height: 1.6;
-    flex-basis: 50%;
 }
 
-.section img {
-    max-width: 100%;
-    height: auto;
+.section#niche {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
 }
 
-.section#niche,
-.section#content,
-.section#trust,
-.section#algorithm,
-.section#hooks,
-.section#cta,
-.section#trends,
-.section#editing,
-.section#branding,
+.section#content {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#trust {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#algorithm {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#hooks {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#cta {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#trends {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#editing {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#branding {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
 .section#results {
-    background-image: url('images.jpeg');
+    background-image: url('https://via.placeholder.com/1500x1000');
     background-size: cover;
     background-blend-mode: overlay;
 }
