@@ -1,0 +1,17 @@
+body {
+    background-color: #000; /* Black background */
+    color: #fff; /* White font color */
+    font-family: Arial, sans-serif; /* Choose a legible font */
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.6;
+}
