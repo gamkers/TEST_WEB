@@ -1,17 +1,108 @@
+/* styles.css */
+
 body {
-    background-color: #000; /* Black background */
-    color: #fff; /* White font color */
-    font-family: Arial, sans-serif; /* Choose a legible font */
     margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+}
+
+header {
+    text-align: center;
     padding: 20px;
+    background-color: #222;
+    border-bottom: 1px solid #444;
 }
 
-h1 {
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.section {
+    padding: 40px 20px;
+    border-bottom: 1px solid #444;
+}
+
+.section:nth-child(even) {
+    background-color: #111;
+}
+
+.section:nth-child(odd) {
+    background-color: #000;
+}
+
+.section h2 {
+    margin-top: 0;
     font-size: 2em;
-    margin-bottom: 20px;
+    border-bottom: 2px solid #666;
+    padding-bottom: 10px;
 }
 
-p {
-    font-size: 1em;
+.section p {
     line-height: 1.6;
+}
+
+.section p strong {
+    color: #ffcc00;
+}
+
+.section#niche {
+    background-image: url('https://www.google.com/search?q=hobbies+background+aesthetic+black&client=ms-android-google&sca_esv=d14037260a5006b9&biw=412&bih=784&udm=2&sxsrf=ADLYWIJiLLOKpxQ0Mn-8PRXYOwDhFGvoZw%3A1718256389627&ei=BYNqZr_hJe6d4-EP3K6v0AE&oq=hobbies+background+aesthetic+black&gs_lp=EhNtb2JpbGUtZ3dzLXdpei1zZXJwIiJob2JiaWVzIGJhY2tncm91bmQgYWVzdGhldGljIGJsYWNrMggQABiABBiiBDIIEAAYgAQYogQyCBAAGIAEGKIEMggQABiABBiiBDIIEAAYgAQYogRInyBQpghYmR5wAHgAkAEAmAGdAqAB0wuqAQUwLjUuMrgBA8gBAPgBAZgCB6ACjwzCAgQQIxgnmAMAiAYBkgcHMC40LjIuMaAHgxM&sclient=mobile-gws-wiz-serp#imgrc=_cAjIFBc9C57kM&imgdii=bvGfWj0VNGL53M/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#content {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#trust {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#algorithm {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#hooks {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#cta {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#trends {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#editing {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#branding {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.section#results {
+    background-image: url('https://via.placeholder.com/1500x1000');
+    background-size: cover;
+    background-blend-mode: overlay;
 }
